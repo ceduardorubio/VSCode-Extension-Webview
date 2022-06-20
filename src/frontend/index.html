@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <h1>Chat with Peerjs</h1>
+    <div id="state">Disconnected</div>
     <h1 id="title"> Loading ... </h1>
     <label for="friendID"> Friend ID:</label>
     <input id="friendID" type="text">
@@ -17,6 +19,11 @@
     <label for="msg"> Message: </label>
     <input id="msg" type="text" disabled>
     <button id="connectBtn" disabled> Send </button>
+    <br>
+    <h5>Current Messages</h5>
+    <div id="messages">
+    </div>
+
 
     <script src="js/main.js"></script>
 </body>

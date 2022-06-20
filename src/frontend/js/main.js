@@ -1,3 +1,51 @@
+const myCurrentID = generateRandomString(32);
+const peer = new Peer(myCurrentID);
+let conn = null;
+
+
+const title = document.getElementById('title');
+const connectBtn = document.getElementById('connectBtn');
+const partnerId = document.getElementById('partnerId');
+const sendBtn = document.getElementById('SendBtn');
+const state = document.getElementById('state');
+const msg = document.getElementById('msg');
+
+title.innerHTML = 'Tu Id es: ' + myCurrentID;
+state.innerHTML = 'Disconnected';
+
+connectBtn.addEventListener('click', () => {
+    let id = partnerId.value;
+    if (partnerId.length !== 32) {
+        alert('Wrong partner id');
+    } else {
+        let c = peer.connect(id);
+        setConnectionActions(c);
+    }
+});
+
+peer.on('connection', function(c) {
+    SetConnectionActions(c);
+});
+
+function setConnectionActions(c) {
+    state.innerHTML = 'Connected';
+    conn = c;
+    conn.on('open', () => {
+        console.log('Connected');
+        connectBtn.disabled = true;
+        sendBtn.disabled = false;
+    });
+    conn.on('data', function(data) {
+        appendMessage(data);
+    });
+}
+
+sendBtn.addEventListener('click', () => {
+    let msg = msg.value;
+    conn.send(msg.value);
+});
+
+
 function generateRandomString(length) {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -8,47 +56,9 @@ function generateRandomString(length) {
     return result;
 }
 
-const myCurrentID = generateRandomString(32);
-const title = document.getElementById('title');
-title.innerHTML = 'Tu Id es: ' + myCurrentID;
 
-
-let peer = new Peer(myCurrentID);
-let conn = null;
-let connectBtn = document.getElementById('connectBtn');
-connectBtn.addEventListener('click', () => {
-    let partnerId = document.getElementById('partnerId').value;
-    if (partnerId.length !== 32) {
-        alert('Wrong partner id');
-    } else {
-        let c = peer.connect(partnerId);
-        setConnectionActions(c);
-    }
-});
-
-peer.on('connection', function(c) {
-    SetConnectionActions(c);
-});
-
-
-conn.on('open', () => {
-    console.log('Connected');
-    connectBtn.disabled = true;
-});
-
-let sendBtn = document.getElementById('SendBtn');
-sendBtn.addEventListener('click', () => {
-    let data = document.getElementById('data').value;
-    conn.send(data);
-});
-
-
-document.getElementById('state').innerHTML = 'Disconnected';
-
-function setConnectionActions(c) {
-    document.getElementById('state').innerHTML = 'Connected';
-    conn = c;
-    conn.on('data', function(data) {
-        console.log(data);
-    });
+function appendMessage(msg) {
+    let message = document.createElement('div');
+    message.innerHTML = msg;
+    document.getElementById('messages').appendChild(message);
 }
