@@ -5,17 +5,18 @@ let conn = null;
 
 const title = document.getElementById('title');
 const connectBtn = document.getElementById('connectBtn');
-const partnerId = document.getElementById('partnerId');
-const sendBtn = document.getElementById('SendBtn');
+const partnerId = document.getElementById('partnerid');
+const sendBtn = document.getElementById('sendBtn');
 const state = document.getElementById('state');
 const msg = document.getElementById('msg');
+const yournickname = document.getElementById('yournickname');
 
 title.innerHTML = 'Tu Id es: ' + myCurrentID;
 state.innerHTML = 'Disconnected';
 
 connectBtn.addEventListener('click', () => {
     let id = partnerId.value;
-    if (partnerId.length !== 32) {
+    if (partnerId.value.length !== 32) {
         alert('Wrong partner id');
     } else {
         let c = peer.connect(id);
@@ -24,7 +25,7 @@ connectBtn.addEventListener('click', () => {
 });
 
 peer.on('connection', function(c) {
-    SetConnectionActions(c);
+    setConnectionActions(c);
 });
 
 function setConnectionActions(c) {
@@ -34,15 +35,18 @@ function setConnectionActions(c) {
         console.log('Connected');
         connectBtn.disabled = true;
         sendBtn.disabled = false;
+        partnerId.disabled = true;
+        msg.disabled = false;
     });
     conn.on('data', function(data) {
+        console.log({ data });
         appendMessage(data);
     });
 }
 
 sendBtn.addEventListener('click', () => {
-    let msg = msg.value;
-    conn.send(msg.value);
+    let m = new Date().toLocaleString() + "- " + yournickname.value + ": " + msg.value;
+    appendMessage(m);
 });
 
 
