@@ -29,24 +29,25 @@ peer.on('connection', function(c) {
 });
 
 function setConnectionActions(c) {
-    state.innerHTML = 'Connected';
+    state.innerHTML = 'Connected to' + c.peer;
     conn = c;
     conn.on('open', () => {
-        console.log('Connected');
         connectBtn.disabled = true;
         sendBtn.disabled = false;
         partnerId.disabled = true;
         msg.disabled = false;
+        conn.on('data', function(data) {
+            appendMessage(data);
+        });
     });
-    conn.on('data', function(data) {
-        console.log({ data });
-        appendMessage(data);
-    });
+
 }
 
 sendBtn.addEventListener('click', () => {
     let m = new Date().toLocaleString() + "- " + yournickname.value + ": " + msg.value;
+    conn.send(m);
     appendMessage(m);
+    msg.value = '';
 });
 
 
