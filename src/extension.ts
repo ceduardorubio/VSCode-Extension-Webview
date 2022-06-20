@@ -4,7 +4,7 @@ import path = require('path');
 
 export function activate(context: vscode.ExtensionContext) {
 	
-	let disposable = vscode.commands.registerCommand('helloworld.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('peerjsChat.peerjsChat', () => {
 		let local = vscode.Uri.file(path.join(context.extensionPath));
 		const panel = vscode.window.createWebviewPanel(
 			'Web View',

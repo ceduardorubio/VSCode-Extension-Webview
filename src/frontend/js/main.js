@@ -17,14 +17,38 @@ let peer = new Peer(myCurrentID);
 let conn = null;
 let connectBtn = document.getElementById('connectBtn');
 connectBtn.addEventListener('click', () => {
-    let id = document.getElementById('id').value;
-    if (id.length != 32) {
+    let partnerId = document.getElementById('partnerId').value;
+    if (partnerId.length !== 32) {
         alert('Wrong partner id');
     } else {
-        conn = peer.connect(id);
-        conn.on('open', () => {
-            let msg = document.getElementById('msg').value;
-            conn.send(msg);
-        });
+        let c = peer.connect(partnerId);
+        setConnectionActions(c);
     }
 });
+
+peer.on('connection', function(c) {
+    SetConnectionActions(c);
+});
+
+
+conn.on('open', () => {
+    console.log('Connected');
+    connectBtn.disabled = true;
+});
+
+let sendBtn = document.getElementById('SendBtn');
+sendBtn.addEventListener('click', () => {
+    let data = document.getElementById('data').value;
+    conn.send(data);
+});
+
+
+document.getElementById('state').innerHTML = 'Disconnected';
+
+function setConnectionActions(c) {
+    document.getElementById('state').innerHTML = 'Connected';
+    conn = c;
+    conn.on('data', function(data) {
+        console.log(data);
+    });
+}
