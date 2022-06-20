@@ -18,9 +18,13 @@ let conn = null;
 let connectBtn = document.getElementById('connectBtn');
 connectBtn.addEventListener('click', () => {
     let id = document.getElementById('id').value;
-    conn = peer.connect(id);
-    conn.on('open', () => {
-        let msg = document.getElementById('msg').value;
-        conn.send(msg);
-    });
+    if (id.length != 32) {
+        alert('Wrong partner id');
+    } else {
+        conn = peer.connect(id);
+        conn.on('open', () => {
+            let msg = document.getElementById('msg').value;
+            conn.send(msg);
+        });
+    }
 });
