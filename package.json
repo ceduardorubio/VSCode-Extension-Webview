@@ -1,7 +1,7 @@
 {
     "name": "peerjsChat",
     "displayName": "peerjsChat",
-    "description": "",
+    "description": "chat whit peerjs - cvx",
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.68.0"
