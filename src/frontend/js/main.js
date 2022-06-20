@@ -1,7 +1,15 @@
-const myCurrentID = generateRandomString(32);
+let myCurrentID = "";
+let stored = localStorage.getItem('peerId');
+if (stored) {
+    console.log(stored);
+    myCurrentID = stored;
+} else {
+    myCurrentID = generateRandomString(32);
+    localStorage.setItem('peerId', myCurrentID);
+}
+
 const peer = new Peer(myCurrentID);
 let conn = null;
-
 
 const title = document.getElementById('title');
 const connectBtn = document.getElementById('connectBtn');
@@ -10,6 +18,16 @@ const sendBtn = document.getElementById('sendBtn');
 const state = document.getElementById('state');
 const msg = document.getElementById('msg');
 const yournickname = document.getElementById('yournickname');
+
+let storedPartnerId = localStorage.getItem('peerPartnerId');
+if (peerPartnerId) {
+    partnerId.value = peerPartnerId;
+}
+
+let storedNick = localStorage.getItem('nickname');
+if (storedNick) {
+    yournickname.value = storedNick;
+}
 
 title.innerHTML = 'Tu Id es: ' + myCurrentID;
 state.innerHTML = 'Disconnected';
@@ -20,6 +38,7 @@ connectBtn.addEventListener('click', () => {
         alert('Wrong partner id');
     } else {
         let c = peer.connect(id);
+        localStorage.setItem('peerPartnerId', id);
         setConnectionActions(c);
     }
 });
