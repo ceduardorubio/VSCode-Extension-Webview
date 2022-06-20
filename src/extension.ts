@@ -25,9 +25,9 @@ export function deactivate() {}
 
 
 function getWebviewContent(context: vscode.ExtensionContext,panel: vscode.WebviewPanel) {
-	const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'src','frontend', 'index.html'));
+	const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath,'frontend', 'index.html'));
 	let content =  fs.readFileSync(filePath.fsPath, 'utf8');
-	const scriptsPath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'src','frontend', 'js'));
+	const scriptsPath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath,'frontend', 'js'));
 	const scripts = panel.webview.asWebviewUri(scriptsPath).toString();
 	console.log(scripts);
 	let uContent = content.replace('<script src="js', '<script src="' +scripts + '/');
