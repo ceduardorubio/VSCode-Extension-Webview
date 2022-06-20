@@ -2,7 +2,15 @@
     "name": "peerjsChat",
     "displayName": "peerjsChat",
     "description": "chat whit peerjs - cvx",
+    "author": {
+        "name": "carlos velasquez"
+    },
+    "icon": "images/icon.png",
     "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ceduardorubio/VSCode-Extension-Webview"
+    },
     "engines": {
         "vscode": "^1.68.0"
     },
